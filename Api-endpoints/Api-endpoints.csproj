@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Commercial.Application\Commercial.Application.csproj" />
     <ProjectReference Include="..\Commercial.Persistence\Commercial.Persistence.csproj" />
+
   </ItemGroup>
 
 

@@ -11,4 +11,5 @@ public partial class CategoryMapper
     public partial CategoryDTO CatergoryToCategoryDTO(Category category);
     public partial ImmutableList<CategoryDTO> CatergoryToListCategoryDTO(IReadOnlyList<Category> categories);
     public partial Category CategoryDtoTOCategory(CreateCategoryDTO category);
+    public partial Category CategoryDtoTOCategory(CategoryDTO category);
 }

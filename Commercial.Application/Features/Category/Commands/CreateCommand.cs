@@ -6,9 +6,9 @@ using MediatR;
 
 namespace Commercial.Application.Features.Category.Commands;
 
-public class CreateCategoryCommand : IRequest<Response<CategoryDTO>>
+public class CreateCommand : IRequest<Response<CategoryDTO>>
 {
-    public CreateCategoryCommand(CreateCategoryDTO categoryDto)
+    public CreateCommand(CreateCategoryDTO categoryDto)
     {
         CategoryDto = categoryDto;
     }
@@ -16,9 +16,9 @@ public class CreateCategoryCommand : IRequest<Response<CategoryDTO>>
     public CreateCategoryDTO CategoryDto { get; set; }
 }
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Response<CategoryDTO>>
+public class CreateCommandHandler : IRequestHandler<CreateCommand, Response<CategoryDTO>>
 {
-    public CreateCategoryCommandHandler(ICategoryService categoryService, IValidator<CreateCategoryDTO> validator)
+    public CreateCommandHandler(ICategoryService categoryService, IValidator<CreateCategoryDTO> validator)
     {
         _categoryService = categoryService;
         _validator = validator;
@@ -27,7 +27,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
     private readonly ICategoryService _categoryService;
     private readonly IValidator<CreateCategoryDTO> _validator;
 
-    public async Task<Response<CategoryDTO>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Response<CategoryDTO>> Handle(CreateCommand request, CancellationToken cancellationToken)
     {
         var validation = await _validator.ValidateAsync(request.CategoryDto);
         if (validation.IsValid)

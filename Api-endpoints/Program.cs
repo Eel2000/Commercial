@@ -1,4 +1,5 @@
 using Api_endpoints.Extensions;
+using Api_endpoints.Middlewares;
 using Api_endpoints.OpenApi;
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
@@ -28,6 +29,8 @@ builder.Services.AddMediatR(options =>
     options.RegisterServicesFromAssemblies(AssemblyExtension.GetApplicationLibrayAssembly());
 });
 
+builder.Services.AddScoped<GlobalExceptionHandler>();
+
 builder.Services.AddCarter();
 
 builder.Services.AddApplication();
@@ -43,5 +46,7 @@ app.UseHttpsRedirection();
 app.MapCarter();
 
 app.UseSwaggerDocumentation();
+
+app.UseGlobalExceptionHandler();
 
 app.Run();
