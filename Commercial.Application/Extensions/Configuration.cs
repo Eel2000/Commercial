@@ -20,9 +20,10 @@ public static class Configuration
         #region Validator
 
         services.AddScoped<IValidator<CreateCategoryDTO>, CategoryValidator>();
+        services.AddScoped<IValidator<CategoryDTO>, EditCategoryValidator>();
 
         #endregion
-        
+
         return services;
     }
 }

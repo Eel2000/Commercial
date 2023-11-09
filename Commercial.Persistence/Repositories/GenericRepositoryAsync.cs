@@ -34,10 +34,24 @@ public class GenericRepositoryAsync<TEntity> : IGenericRepositoryAsync<TEntity> 
         return entity;
     }
 
-    public async ValueTask DeleteAsync(TEntity entity)
+    public async ValueTask<TEntity> DeleteAsync(TEntity entity)
     {
-        _context.Set<TEntity>().Remove(entity);
+        var entry = _context.Set<TEntity>().Remove(entity);
         await _context.SaveChangesAsync();
+
+        return entry.Entity;
+    }
+
+    public async ValueTask<TEntity> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        var delEntity = await _context.Set<TEntity>().FirstOrDefaultAsync(expression);
+
+        if (delEntity is null) throw new ApplicationException("Information or Entity entry not found");
+
+        var entry = _context.Set<TEntity>().Remove(delEntity);
+        await _context.SaveChangesAsync();
+
+        return entry.Entity;
     }
 
     public async ValueTask<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
@@ -62,9 +76,11 @@ public class GenericRepositoryAsync<TEntity> : IGenericRepositoryAsync<TEntity> 
         return data;
     }
 
-    public async ValueTask UpdateAsync(TEntity entity)
+    public async ValueTask<TEntity> UpdateAsync(TEntity entity)
     {
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
+
+        return entity;
     }
 }

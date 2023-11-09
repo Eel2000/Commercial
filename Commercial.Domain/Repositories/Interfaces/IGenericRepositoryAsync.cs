@@ -10,6 +10,7 @@ public interface IGenericRepositoryAsync<TEntity> where TEntity : class
     ValueTask<IReadOnlyList<TEntity>> GetPagedResponseAsync(int pageNumber, int pageSize);
     ValueTask<IReadOnlyList<TEntity>> GetPagedResponseV2Async(int pageNumber, int pageSize);
     ValueTask<TEntity> AddAsync(TEntity entity);
-    ValueTask UpdateAsync(TEntity entity);
-    ValueTask DeleteAsync(TEntity entity);
+    ValueTask<TEntity> UpdateAsync(TEntity entity);
+    ValueTask<TEntity> DeleteAsync(TEntity entity);
+    ValueTask<TEntity> DeleteAsync(Expression<Func<TEntity, bool>> expression);
 }

@@ -81,5 +81,11 @@ public static class ProductEntityBuilder
             .HasOne<Category>(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId);
+
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Stock)
+            .WithOne(p => p.Product)
+            .HasForeignKey<Stock>(s => s.Id)
+            .IsRequired();
     }
 }
