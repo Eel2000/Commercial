@@ -1,3 +1,4 @@
+using Asp.Versioning.Conventions;
 using Carter;
 using Commercial.Application.DTOs.Category;
 using Commercial.Application.Features.Category.Commands;
@@ -11,13 +12,17 @@ public class CategoryModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var version = app.NewVersionedApi("Category-v1");
+        var version = app.NewApiVersionSet("Category")
+            .HasApiVersion(1, 0)
+            .HasApiVersion(2, 0)
+            .ReportApiVersions()
+            .Build();
 
-        var baseRoot = version.MapGroup("Categories");
+        var baseRoot = app.MapGroup("api/Categories/v{version:apiVersion}").WithApiVersionSet(version);
 
-        baseRoot.MapGet("/list", HandleGetCategories).HasApiVersion(1.0);
+        baseRoot.MapGet("list", HandleGetCategories).MapToApiVersion(1,0);
 
-        baseRoot.MapPost("create-new", HandleCreateCategory).HasApiVersion(1.0);
+        baseRoot.MapPost("create-new", HandleCreateCategory).MapToApiVersion(1,0);
     }
 
     async ValueTask<IResult> HandleGetCategories(IMediator mediator)
