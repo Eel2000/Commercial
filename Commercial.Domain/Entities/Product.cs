@@ -23,4 +23,5 @@ public class Product : BaseEntity
     public virtual Category Category { get; set; }
     
     public virtual ICollection<ProductCatalog> ProductCatalogs { get; set; }
+    public virtual Stock? Stock { get; set; }
 }

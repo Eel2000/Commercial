@@ -12,17 +12,21 @@ public class CategoryModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var version = app.NewApiVersionSet("Category")
+        var version = app.NewApiVersionSet()
             .HasApiVersion(1, 0)
             .HasApiVersion(2, 0)
             .ReportApiVersions()
             .Build();
 
-        var baseRoot = app.MapGroup("api/Categories/v{version:apiVersion}").WithApiVersionSet(version);
+        var baseRoot = app.MapGroup("api/Categories/v{version:apiVersion}")
+            .WithApiVersionSet(version);
 
-        baseRoot.MapGet("list", HandleGetCategories).MapToApiVersion(1,0);
 
-        baseRoot.MapPost("create-new", HandleCreateCategory).MapToApiVersion(1,0);
+        baseRoot.MapGet("list", HandleGetCategories)
+            .MapToApiVersion(1, 0);
+
+        baseRoot.MapPost("create-new", HandleCreateCategory)
+            .MapToApiVersion(2, 0);
     }
 
     async ValueTask<IResult> HandleGetCategories(IMediator mediator)

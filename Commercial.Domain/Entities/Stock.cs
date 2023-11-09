@@ -13,4 +13,6 @@ public class Stock : BaseEntity
     /// </summary>
     /// <returns><see cref="bool"/> true is it's sold out otherwise false.</returns>
     public bool IsSoldOut() => Quantity <= 0;
+    
+    public Product? Product { get; set; }
 }

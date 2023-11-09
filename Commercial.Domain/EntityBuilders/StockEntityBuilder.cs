@@ -42,5 +42,11 @@ public static class StockEntityBuilder
         modelBuilder.Entity<Stock>()
             .Property(s => s.IsActive)
             .HasDefaultValue(true);
+
+        modelBuilder.Entity<Stock>()
+            .HasOne<Product>(s => s.Product)
+            .WithOne(p => p.Stock)
+            .HasForeignKey<Stock>(s => s.ProductId)
+            .IsRequired();
     }
 }

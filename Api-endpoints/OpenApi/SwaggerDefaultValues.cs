@@ -44,7 +44,7 @@ public class SwaggerDefaultValues : IOperationFilter
                 var json = JsonSerializer.Serialize(description.DefaultValue, description.ModelMetadata.ModelType);
                 parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
             }
-
+            
             parameter.Required |= description.IsRequired;
         }
     }

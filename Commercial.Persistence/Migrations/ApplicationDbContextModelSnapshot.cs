@@ -250,6 +250,9 @@ namespace Commercial.Persistence.Migrations
                         .IsUnique()
                         .HasFilter("[Name] IS NOT NULL");
 
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
                     b.ToTable("Stocks");
                 });
 
@@ -481,6 +484,17 @@ namespace Commercial.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Commercial.Domain.Entities.Stock", b =>
+                {
+                    b.HasOne("Commercial.Domain.Entities.Product", "Product")
+                        .WithOne("Stock")
+                        .HasForeignKey("Commercial.Domain.Entities.Stock", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -545,6 +559,8 @@ namespace Commercial.Persistence.Migrations
             modelBuilder.Entity("Commercial.Domain.Entities.Product", b =>
                 {
                     b.Navigation("ProductCatalogs");
+
+                    b.Navigation("Stock");
                 });
 #pragma warning restore 612, 618
         }
