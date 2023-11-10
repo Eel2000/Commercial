@@ -23,6 +23,7 @@ public static class Configure
         services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
         
         services.AddTransient<ICategoryRepository, CategoryRepository>();
+        services.AddTransient<IProductRepository, ProductRepository>();
         return services;
     }
 }
