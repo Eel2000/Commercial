@@ -13,7 +13,7 @@ public class CategoryModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var version = app.NewApiVersionSet()
+        var version = app.NewApiVersionSet("Category")
             .HasApiVersion(1, 0)
             .HasApiVersion(2, 0)
             .ReportApiVersions()
