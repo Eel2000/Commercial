@@ -50,9 +50,9 @@ public class StockService : IStockService
         return new Response<StockDTO>("stock removed", mapper.StockTOStockDTO(removedRaw));
     }
 
-    public async ValueTask<Response<IReadOnlyCollection<StockDTO>>> GetAllAsync()
+    public async ValueTask<Response<IReadOnlyCollection<StockDTO>>> GetAllAsync(int page, int count)
     {
-        var raw = await _stockRepository.ToListAsync(x => x.IsActive);
+        var raw = await _stockRepository.GetPagedResponseAsync(page, count, x => x.IsActive);
 
         var mapper = new StockMapper();
 
