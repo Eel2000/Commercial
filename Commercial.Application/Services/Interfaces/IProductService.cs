@@ -7,6 +7,7 @@ public interface IProductService
 {
     ValueTask<Response<GetProduct>> CreateAsync(CreateProduct product);
     ValueTask<Response<IReadOnlyCollection<GetProduct>>> GetAvailableProductListAsync(int page, int count);
+    ValueTask<Response<IReadOnlyCollection<GetProduct>>> GetAvailableProductListPerCategoryAsync(int page, int count, Guid categoryId);
     ValueTask<Response<GetProduct>> EditAsync(GetProduct product);
     ValueTask<Response<GetProduct>> RemoveAsync(Guid id);
 }

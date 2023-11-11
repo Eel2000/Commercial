@@ -25,10 +25,9 @@ public class ProductModule : ICarterModule
 
         baseRoot.MapPost("create", HandleCreate).MapToApiVersion(1, 0);
         baseRoot.MapPut("edit", HandleEdit).MapToApiVersion(1, 0);
-        baseRoot.MapDelete("remove", HandleRemove).MapToApiVersion(1, 0)
-            .WithDescription("Where is the product unique identifier.");
-        baseRoot.MapGet("available", HandleGetListOfAvailable).MapToApiVersion(1, 0).WithDescription(
-            "get the list of all available product. Where p is the page and c the count of product per page");
+        baseRoot.MapDelete("remove", HandleRemove).MapToApiVersion(1, 0);
+        baseRoot.MapGet("available", HandleGetListOfAvailable).MapToApiVersion(1, 0);
+        baseRoot.MapGet("available-per-category", HandleGetListOfAvailablePerCategory).MapToApiVersion(1, 0);
     }
 
     async ValueTask<IResult> HandleCreate(IMediator mediator, [FromBody, Required] CreateProduct product)
@@ -66,5 +65,15 @@ public class ProductModule : ICarterModule
             return Results.Ok(result);
 
         return Results.NotFound(result);
+    }
+
+    async ValueTask<IResult> HandleGetListOfAvailablePerCategory(IMediator mediator, [FromQuery, Required] int p,
+        [FromQuery, Required] int c, [FromQuery, Required] Guid cat)
+    {
+        var result = await mediator.Send(new GetAvailableProductPerCategoryQuery(p, c, cat));
+        if (result.Succeed)
+            return Results.Ok(result);
+
+        return Results.BadRequest(result);
     }
 }
