@@ -14,6 +14,20 @@ public class GenericRepositoryAsync<TEntity> : IGenericRepositoryAsync<TEntity> 
         _context = context;
     }
 
+    public async ValueTask<IReadOnlyList<TEntity>> GetPagedResponseAsync(int pageNumber, int pageSize,
+        Expression<Func<TEntity, bool>> expression)
+    {
+        var data = await _context
+            .Set<TEntity>()
+            .AsNoTracking()
+            .Where(expression)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return data;
+    }
+
     public async ValueTask<IReadOnlyList<TEntity>> GetPagedResponseV2Async(int pageNumber, int pageSize)
     {
         var data = _context
@@ -67,7 +81,6 @@ public class GenericRepositoryAsync<TEntity> : IGenericRepositoryAsync<TEntity> 
     {
         var data = await _context
             .Set<TEntity>()
-            .AsQueryable()
             .AsNoTracking()
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)

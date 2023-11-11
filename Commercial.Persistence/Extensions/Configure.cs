@@ -24,6 +24,8 @@ public static class Configure
         
         services.AddTransient<ICategoryRepository, CategoryRepository>();
         services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddTransient<IStockRepository, StockRepository>();
+        
         return services;
     }
 }

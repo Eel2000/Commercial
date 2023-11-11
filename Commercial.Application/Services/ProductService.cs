@@ -37,6 +37,18 @@ public class ProductService : IProductService
         return new Response<IReadOnlyCollection<GetProduct>>(products);
     }
 
+    public async ValueTask<Response<IReadOnlyCollection<GetProduct>>> GetAvailableProductListPerCategoryAsync(int page,
+        int count, Guid categoryId)
+    {
+        var mapper = new ProductMapper();
+
+        var productRaw = await _productRepository.GetPagedResponseAsync(page, count, x => x.CategoryId == categoryId);
+
+        var products = mapper.ProductToProductDTO(productRaw);
+
+        return new Response<IReadOnlyCollection<GetProduct>>(products);
+    }
+
     public async ValueTask<Response<GetProduct>> EditAsync(GetProduct product)
     {
         var mapper = new ProductMapper();
@@ -47,7 +59,7 @@ public class ProductService : IProductService
 
         var productEdited = mapper.ProductToProductDTO(edition);
 
-        return new Response<GetProduct>("",productEdited);
+        return new Response<GetProduct>("", productEdited);
     }
 
     public async ValueTask<Response<GetProduct>> RemoveAsync(Guid id)
